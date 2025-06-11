@@ -1,0 +1,166 @@
+#include <Servo.h>  // Adiciona biblioteca servo 
+Servo myservo1;  
+Servo myservo2;
+Servo myservo3;
+Servo myservo4;  
+
+int pos1=80, pos2=60, pos3=130, pos4=0;  // definir a variável de 4 ângulos de servo e atribua o valor inicial (que é o valor do ângulo de postura da inicialização) 
+
+const int right_X = A2; // define o pino X direito para A2
+const int right_Y = A5; // define o pino X direito para A5
+const int right_key = 7; 
+
+const int left_X = A3; 
+const int left_Y = A4;  
+const int left_key = 8; 
+
+int x1,y1,z1;  // define a variável usada para salvar o valor lido pelo joystick
+int x2,y2,z2;
+
+
+void setup() 
+{
+  
+  // boot posture 
+  myservo1.write(pos1);  
+  delay(1000);
+  myservo2.write(pos2);
+  myservo3.write(pos3);
+  myservo4.write(pos4);
+  delay(1500);
+
+  pinMode(right_key, INPUT);   // define a tecla direita/esquerda como ENTRADA
+  pinMode(left_key, INPUT);
+  Serial.begin(9600); //  Define o baud rate para 9600
+}
+
+void loop() 
+{
+  myservo1.attach(A1);  
+  myservo2.attach(A0);  
+  myservo3.attach(6);   
+  myservo4.attach(9);   
+
+  x1 = analogRead(right_X); 
+  y1 = analogRead(right_Y);   
+  z1 = digitalRead(right_key);   
+  
+  x2 = analogRead(left_X);  
+  y2 = analogRead(left_Y);  
+  z2 = digitalRead(left_key);  
+  //delay(5);  // diminuir a velocidade geral
+
+  // Garra
+  claw();
+  // Rotação
+  rotate();
+  // Levanta o braço
+  upper_arm();
+  //Baixa braço
+  lower_arm();
+}
+
+//Garra
+void claw()
+{
+    //Garra
+  if(x2<50) // se empurrar o botão esquerdo para a direita
+  {
+      pos4=pos4-2;  //ângulo atual do servo 4 subtrai 2（alterando o valor que você subtrai, alterando assim a velocidade fechada de Garra)
+      //Serial.println(pos4);
+      myservo4.write(pos4);  // o servo 4 opera a ação, o Garra é gradualmente fechado.
+      delay(5);
+      if(pos4<2)  // se o valor pos4 for subtraído de 2, o Garra em 37 graus fechando.
+      {            
+        pos4=2;   
+      }
+   }
+  if(x2>1000) // se empurrar o botão esquerdo para a esquerda
+  {
+      pos4=pos4+8; 
+      //Serial.println(pos4);
+      myservo4.write(pos4); 
+      delay(5);
+      if(pos4>108)  // limitar o maior ângulo quando aberto da Garra(quanto maior o valor maior a abertura da garra)
+      {
+        pos4=108;
+      }
+  }
+}
+//******************************************************
+ // Rotação
+void rotate()
+{
+  if(x1<50)  // se empurrar o botão direito para a direita
+  {
+    pos1=pos1-1;  //pos1 subitrai 1
+    myservo1.write(pos1);  // o servo 1 opera o movimento, o braço gira para a direita.
+    delay(5);
+    if(pos1<1)   // limitar o ângulo ao virar à direita
+    {
+      pos1=1;
+    }
+  }
+  if(x1>1000)  
+  {
+    pos1=pos1+1; 
+    myservo1.write(pos1);  
+    delay(5);
+    if(pos1>180)  
+    {
+      pos1=180;
+    }
+  }
+}
+
+//**********************************************************/
+//movimenta o braço
+void upper_arm()
+{
+    if(y1>1000) // se empurrar o botão direito para a cima
+  {
+    pos2=pos2-1;
+    myservo2.write(pos2); // Levanta o braço 
+    delay(5);
+    if(pos2<0)  // limitar o ângulo para cima
+    {
+      pos2=0;
+    }
+  }
+  if(y1<50)  // se empurrar o botão direito para a baixo
+  {
+    pos2=pos2+1;  
+    myservo2.write(pos2);  // Abaixa o braço  
+    delay(5);
+    if(pos2>180)  // limitar o ângulo para baixo
+    {
+      pos2=180;
+    }
+  }
+}
+
+//*************************************************************/
+// Baixa braço
+void lower_arm()
+{
+    if(y2<50)  
+  {
+    pos3=pos3+1;
+    myservo3.write(pos3);   
+    delay(5);
+    if(pos3>180)   
+    {
+      pos3=180;
+    }
+  }
+  if(y2>1000)  
+  {
+    pos3=pos3-1;
+    myservo3.write(pos3);  
+    delay(5);
+    if(pos3<35)  
+    {
+      pos3=35;
+    }
+  }
+}
