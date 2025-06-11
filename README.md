@@ -30,7 +30,6 @@ A montagem prática do circuito envolveu:
 - **Cabos Jumper:** Para interconexões entre componentes.
 - **Fonte de Alimentação Externa:** Garante energia adequada aos servos.
 
-> **Figura 1:** Diagrama da Montagem do Circuito Eletrônico do Braço Robótico.
 
 ### 3.2. Simulação Virtual
 
@@ -55,7 +54,6 @@ A simulação foi realizada na plataforma **Wokwi**, proporcionando:
 
 ### 4.1. Vista do Circuito
 
-> **Figura 2:** Vista do Circuito Eletrônico Detalhada.
 
 **Organização:**
 
@@ -66,11 +64,9 @@ A simulação foi realizada na plataforma **Wokwi**, proporcionando:
   - Preto (GND)
   - Amarelo (PWM)
 
-> **Figura 3:** Vista Ilustrativa do Sistema Robótico Integrado.
 
 ### 4.2. Vista Esquemática do Circuito
 
-> **Figura 4:** Diagrama de circuito esquemático.
 
 Representação padronizada das conexões elétricas usando símbolos eletrônicos.
 
