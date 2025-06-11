@@ -1,4 +1,3 @@
-# Braco_Robo
 
 # Projeto: Controle de Braço Robótico com Arduino
 
